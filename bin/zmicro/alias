@@ -1,0 +1,41 @@
+#!/bin/bash
+
+help() {
+  echo "Usage:"
+  echo "  zmicro syncthing <args ...>"
+  echo ""
+
+  syncthing --help
+}
+
+version() {
+  syncthing --version
+}
+
+core() {
+  # context directory
+  local context="$ZMICRO_PACKAGES_DATA_PATH/syncthing"
+  if [ ! -d "$context" ]; then
+    mkdir -p $context
+  fi
+  cd $context
+  # context directory
+
+  case $1 in
+  -h | --help | help)
+    help
+    ;;
+  -v | --version | version)
+    version
+    ;;
+  *)
+    syncthing "$@"
+    ;;
+  esac
+}
+
+run() {
+  core "$@"
+}
+
+run "$@"
